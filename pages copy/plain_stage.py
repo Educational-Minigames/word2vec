@@ -1,7 +1,8 @@
 import json
 
 import numpy as np
-from dash import Dash, html, dcc, callback, Output, Input, State
+import dash
+from dash import html, dcc, callback, Output, Input, State
 import pandas as pd
 import plotly.figure_factory as ff
 import plotly.express as px
@@ -12,7 +13,7 @@ CLUSTER = 'cluster'
 X = 'x'
 Y = 'y'
 
-app = Dash(__name__)
+app = dash.register_page(__name__)
 
 
 def read_df():
@@ -33,9 +34,10 @@ def format_added_words():
 
 
 def create_cluster_fig():
-    points_fig = px.scatter(df, x=df[X], y=df[Y], color=CLUSTER, text=df.loc[:, WORD],
+    points_fig = px.scatter(df, x=df[X], y=df[Y], text=df.loc[:, WORD],
                             color_discrete_sequence=px.colors.qualitative.Plotly)
-    points_fig.update_traces(textposition='top center', textfont=dict(family="Gulzar", size=15, ))
+    points_fig.update_traces(textposition='top center',
+                             textfont=dict(family="Gulzar", size=15, ))
     return points_fig
 
 
@@ -88,7 +90,8 @@ def only_show_vec_fig(name_to_display=None):
         visible = 'legendonly'
         if name and name == name_to_display:
             visible = True
-        cluster_fig.update_traces(patch={'visible': visible}, selector=group.selector)
+        cluster_fig.update_traces(
+            patch={'visible': visible}, selector=group.selector)
 
 
 def setup():
@@ -129,7 +132,8 @@ def add_btn_cb(_, word):
 
     points_fig = px.scatter(word_row, x=word_row[X], y=word_row[Y], text=word_row.loc[:, WORD],
                             color_discrete_sequence=['grey'])
-    points_fig.update_traces(textposition='top center', textfont=dict(family="Gulzar", size=15, ))
+    points_fig.update_traces(textposition='top center',
+                             textfont=dict(family="Gulzar", size=15, ))
     cluster_fig.add_traces(data=points_fig.data)
 
     return cluster_fig, "word added successfully", format_added_words()
@@ -153,10 +157,7 @@ def reset_btn_cb(_):
     return cluster_fig, format_added_words()
 
 
-if __name__ == '__main__':
-    # setup()
-    app.layout = html.Div([
-        html.H1(children='Word 2 Vec', style={'textAlign': 'center'}),
-        dcc.Graph(id='graph-content', figure=cluster_fig),   
-    ])
-    app.run(debug=True)
+layout = html.Div([
+    html.H1(children='Word 2 Vec', style={'textAlign': 'center'}),
+    dcc.Graph(id='graph-content', figure=cluster_fig),
+])

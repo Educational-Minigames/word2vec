@@ -1,7 +1,8 @@
 import json
 
 import numpy as np
-from dash import Dash, html, dcc, callback, Output, Input, State
+import dash
+from dash import html, dcc, callback, Output, Input, State
 import pandas as pd
 import plotly.figure_factory as ff
 import plotly.express as px
@@ -12,7 +13,7 @@ CLUSTER = 'cluster'
 X = 'x'
 Y = 'y'
 
-app = Dash(__name__)
+app = dash.register_page(__name__)
 
 
 def read_df():
@@ -33,7 +34,7 @@ def format_added_words():
 
 
 def create_cluster_fig():
-    points_fig = px.scatter(df, x=df[X], y=df[Y], color=CLUSTER, text=df.loc[:, WORD],
+    points_fig = px.scatter(df, x=df[X], y=df[Y], color=df[CLUSTER], text=df.loc[:, WORD],
                             color_discrete_sequence=px.colors.qualitative.Plotly)
     points_fig.update_traces(textposition='top center',
                              textfont=dict(family="Gulzar", size=15, ))
@@ -94,13 +95,12 @@ def only_show_vec_fig(name_to_display=None):
 
 
 def setup():
-    pass
-    # i = 0
-    # for group_name, pairs in group_pairs.items():
-    #     vector_fig, selector = create_vector_fig(group_name, pairs, i)
-    #     groups[group_name] = Group(group_name, pairs, selector)
-    #     cluster_fig.add_traces(data=vector_fig.data)
-    #     i += 1
+    i = 0
+    for group_name, pairs in group_pairs.items():
+        vector_fig, selector = create_vector_fig(group_name, pairs, i)
+        groups[group_name] = Group(group_name, pairs, selector)
+        cluster_fig.add_traces(data=vector_fig.data)
+        i += 1
 
 
 @callback(
@@ -157,31 +157,18 @@ def reset_btn_cb(_):
     return cluster_fig, format_added_words()
 
 
-if __name__ == '__main__':
-    setup()
-    app.layout = html.Div([
-        html.H1(children='Word 2 Vec', style={'textAlign': 'center'}),
-        dcc.Graph(id='graph-content', figure=cluster_fig),
-        html.Center(
-            children=[
-                html.Span(
-                    children=[
-                        dcc.Input(id='input-on-add', type='text',
-                                  placeholder='کلمه جدید وارد کنید'),
-                        html.Button('افزودن', id='add-btn', n_clicks=0),
-                    ],
-                ),
-                html.Div(
-                    id='input-error',
-                    children='',
-                ),
-                html.Div(
-                    id='added-words',
-                    children=[],
-                ),
-                html.Button('حذف کلمات افزوده شده',
-                            id='reset-btn', n_clicks=0),
-            ]
-        ),
-    ])
-    app.run(debug=True)
+setup()
+layout = html.Div([
+    html.H1(children='Word 2 Vec', style={'textAlign': 'center'}),
+    dcc.Graph(id='graph-content', figure=cluster_fig),
+    html.Center(
+        children=[
+            dcc.RadioItems(
+                options=['هیچ کدام'] + [name for name in groups],
+                value='هیچ کدام',
+                inline=True,
+                id='radios'
+            ),
+        ]
+    ),
+])
