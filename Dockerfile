@@ -6,6 +6,4 @@ ADD ./ ./
 
 EXPOSE 8000
 
-CMD chmod +x ./script.sh && bash -c ./script.sh
-
-
+CMD python3 main.py
