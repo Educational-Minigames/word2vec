@@ -11,16 +11,27 @@ config = st.experimental_get_query_params()
 ADD_WORDS = (config.get('add_words', 'false')) != 'false'
 SHOW_RELATIONS = (config.get('show_relations', 'false')) != 'false'
 SHOW_COLORS = (config.get('show_colors', 'false')) != 'false'
-
+config = {'modeBarButtonsToRemove': 
+          ['toImage',
+           'lasso2d',
+           'zoom2d',
+           'select2d',
+           'autoScale2d',
+           ],
+           'displaylogo': False}
 # Function to create and return the scatterplot figure with arrows for a selected relation
 def create_scatterplot_with_arrows(data, relation_data=[]):
     if SHOW_COLORS:
         fig = px.scatter(data, x="x", y="y", text="word", color="cluster")
     else:
         fig = px.scatter(data, x="x", y="y", text="word")
+    
+
+
     fig.update_traces(
         marker=dict(size=7),
-        textfont=dict(family='Noto Sans Arabic', size=16),
+        # textfont=dict(family='Noto Sans Arabic', size=16),
+        textfont=dict(size=16),
         textposition='top center',
         hoverinfo='x+y+text'
     )
@@ -48,7 +59,7 @@ def create_scatterplot_with_arrows(data, relation_data=[]):
         )
 
     fig.update_layout(
-        margin={"r": 0, "t": 0, "l": 0, "b": 0},
+        margin={"r": 0, "t": 25, "l": 0, "b": 0},
         height=PLOT_HEIGHT,
         xaxis=dict(showgrid=False, zeroline=False),
         yaxis=dict(showgrid=False, zeroline=False),
@@ -57,85 +68,105 @@ def create_scatterplot_with_arrows(data, relation_data=[]):
     return fig
 
 # Load the data from the CSV file
-data = pd.read_csv("data.csv")
+raw_data = pd.read_csv("data.csv")
 
 # Delete the 'Unnamed: 0' column
-if 'Unnamed: 0' in data.columns:
-    del data['Unnamed: 0']
+if 'Unnamed: 0' in raw_data.columns:
+    del raw_data['Unnamed: 0']
 
 # Load relationship data from the "groups.json" file
 with open("groups.json", "r", encoding="utf-8") as json_file:
     relationship_data = json.load(json_file)
 
 # Split the DataFrame into 'data' and 'hidden_data' based on NaN values in the 'cluster' column
-hidden_data = data[data['cluster'].isna()]
-data = data.dropna(subset=['cluster'])
+hidden_data = raw_data[raw_data['cluster'].isna()]
+plot_data = raw_data.dropna(subset=['cluster'])
 
 # Configure Streamlit to be in wide mode and remove the title
 st.set_page_config(layout="wide")
 
+rtl_css = """
+body, h1, h2, h3, p, label, span {
+    direction: rtl;
+}
+"""
+
+# Apply the custom CSS
+st.markdown(f'<style>{rtl_css}</style>', unsafe_allow_html=True)
+
 hide_streamlit_style = """
 <style>
-#MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
+</style>"""
+
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
+hide_hint_css = """
+<style>
+.css-1umhob9-InputContainer .stTextInput {
+    caret-color: transparent;
+}
+.css-1umhob9-InputContainer .stTextInput::placeholder {
+    color: transparent;
+}
 </style>
-
 """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 
+# Display the custom CSS
+st.markdown(hide_hint_css, unsafe_allow_html=True)
 # Create a Streamlit app
 # st.title("2D Word Embeddings Visualization")  # Removed the title
-placeholder = st.empty()
+placeholder = None
 
 # Create the initial scatterplot using the function
-fig = create_scatterplot_with_arrows(data)
+# fig = create_scatterplot_with_arrows(data)
 
-placeholder.plotly_chart(fig, use_container_width=True)
+# placeholder.plotly_chart(fig, use_container_width=True)
 
 # User input to add words
+
 if ADD_WORDS:
-    st.sidebar.header("Add Words")
-    word_to_add = st.sidebar.text_input("Enter a word to add:")
-    add_button = st.sidebar.button("Add Word")
-    reset_button = st.sidebar.button("Reset")
+    st.sidebar.header("کلمه جدید")
+    with st.form("my-form"):
+        word_to_add = st.sidebar.text_input("کلمه جدید وارد کنید:")
+        add_button = st.sidebar.button("اضافه کردن کلمه")    
+    
+    
+    reset_button = st.sidebar.button("حذف کلمات جدید")
 
 
-# Initialize 'added_words' in session state or if reset button to clear 'added_words'
-if 'added_words' not in st.session_state or reset_button:
-    st.session_state.added_words = []
+    # Initialize 'added_words' in session state or if reset button to clear 'added_words'
+    if 'added_words' not in st.session_state or reset_button:
+        st.session_state.added_words = []
 
-data = pd.concat([data, pd.DataFrame(st.session_state.added_words)], ignore_index=True)
-
-# Randomly generate coordinates for the added word
-if ADD_WORDS and add_button and word_to_add:
-    if word_to_add in hidden_data['word'].values:
-        x = hidden_data[hidden_data['word'] == word_to_add]['x'].values[0]
-        y = hidden_data[hidden_data['word'] == word_to_add]['y'].values[0]
-        st.session_state.added_words.append({'word': word_to_add, 'x': x, 'y': y, 'cluster': 'جدید'})
-        
-        # Update the scatterplot using the function
-        data = pd.concat([data, pd.DataFrame([st.session_state.added_words[-1]])], ignore_index=True)
-        fig = create_scatterplot_with_arrows(data)
-        placeholder.plotly_chart(fig, use_container_width=True)
-    else:
-        st.sidebar.warning(f"The word '{word_to_add}' does not exist in the vocabulary.")
-
+    # Randomly generate coordinates for the added word
+    if add_button and word_to_add:
+        if word_to_add in plot_data['word'].values or word_to_add in [data_point['word'] for data_point in st.session_state.added_words]:
+            st.sidebar.warning(f"کلمه '{word_to_add}' قبلا اضافه شده.")
+        elif word_to_add in hidden_data['word'].values :
+            x = hidden_data[hidden_data['word'] == word_to_add]['x'].values[0]
+            y = hidden_data[hidden_data['word'] == word_to_add]['y'].values[0]
+            st.session_state.added_words.append({'word': word_to_add, 'x': x, 'y': y, 'cluster': 'جدید'})  
+        else:
+            st.sidebar.warning(f"کلمه '{word_to_add}' در لغت‌نامه‌ نیست.")
+    plot_data = pd.concat([plot_data, pd.DataFrame(st.session_state.added_words)], ignore_index=True)
+else:
+    plot_data = plot_data
 
 # Dropdown menu to select a relation
 if SHOW_RELATIONS:
-    st.sidebar.header("Select a Relation")
-    selected_relation = st.sidebar.selectbox("Choose a Relation", ['هیچ کدام'] + list(relationship_data.keys()))
+    st.sidebar.header("انتخاب ارتباط")
+    selected_relation = st.sidebar.selectbox("یک ارتباط انتخاب کنید.", ['هیچ کدام'] + list(relationship_data.keys()))
 
     # Process and display the selected relation with arrows if it exists
     if selected_relation:
         relation_data = relationship_data.get(selected_relation, [])
-        st.sidebar.subheader(f"Selected Relation: {selected_relation}")
-        if relation_data:
-            # Process and display the relation data with arrows
-            fig = create_scatterplot_with_arrows(data, relation_data)
-            placeholder.plotly_chart(fig, use_container_width=True)
-        else:
-            st.write("No data available for the selected relation.")
+        st.sidebar.subheader(f"ارتباط انتخابی شما: {selected_relation}")
+else:
+    relation_data = []
 
+fig = create_scatterplot_with_arrows(plot_data, relation_data)
+placeholder = st.empty()
+placeholder.plotly_chart(fig, use_container_width=True, config=config)
 # You can add more interactivity or analysis here as needed
