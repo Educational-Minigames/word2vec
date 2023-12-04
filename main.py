@@ -5,6 +5,9 @@ import json
 
 PLOT_HEIGHT = 600
 
+# Configure Streamlit to be in wide mode and remove the title
+st.set_page_config(layout="wide")
+
 config = st.experimental_get_query_params()
 ADD_WORDS = (config.get('add_words', 'false')) != 'false'
 SHOW_RELATIONS = (config.get('show_relations', 'false')) != 'false'
@@ -16,7 +19,8 @@ config = {'modeBarButtonsToRemove':
            'select2d',
            'autoScale2d',
            ],
-          'displaylogo': False}
+          'displaylogo': False,
+          }
 
 
 # Function to create and return the scatterplot figure with arrows for a selected relation
@@ -25,10 +29,8 @@ def create_scatterplot_with_arrows(data, relation_data=[]):
         fig = px.scatter(data, x="x", y="y", text="word", color="cluster")
     else:
         fig = px.scatter(data, x="x", y="y", text="word")
-
     fig.update_traces(
         marker=dict(size=7),
-        # textfont=dict(family='Noto Sans Arabic', size=16),
         textfont=dict(size=16),
         textposition='top center',
         hoverinfo='x+y+text'
@@ -78,13 +80,37 @@ with open("groups.json", "r", encoding="utf-8") as json_file:
 # Split the DataFrame into 'data' and 'hidden_data' based on NaN values in the 'cluster' column
 hidden_data = raw_data[raw_data['cluster'].isna()]
 plot_data = raw_data.dropna(subset=['cluster'])
-
-# Configure Streamlit to be in wide mode and remove the title
-st.set_page_config(layout="wide")
-
 rtl_css = """
-body, h1, h2, h3, p, label, span {
+body, h1, h2, h3, p, label, span, div {
     direction: rtl;
+}
+
+@font-face{
+    font-family: "Anjoman";
+    src: url("https://db.onlinewebfonts.com/t/f6886c4078ba029be14b7d1053f961b5.eot");
+    src: url("https://db.onlinewebfonts.com/t/f6886c4078ba029be14b7d1053f961b5.eot?#iefix")format("embedded-opentype"),
+        url("https://db.onlinewebfonts.com/t/f6886c4078ba029be14b7d1053f961b5.woff")format("woff"),
+        url("https://db.onlinewebfonts.com/t/f6886c4078ba029be14b7d1053f961b5.woff2")format("woff2"),
+        url("https://db.onlinewebfonts.com/t/f6886c4078ba029be14b7d1053f961b5.ttf")format("truetype"),
+        url("https://db.onlinewebfonts.com/t/f6886c4078ba029be14b7d1053f961b5.svg#Anjoman")format("svg");
+    font-weight:normal;
+    font-style:normal;
+    font-display:swap;
+}
+
+* {
+    font-family: Anjoman !important;
+}
+
+.legendtoggle {
+    stroke: black !important;
+    stroke-width: 1px !important;
+    rx: 10px !important;
+}
+
+/* for hiding textfield helper text */
+.st-emotion-cache-1li7dat {
+    display: none !important;
 }
 """
 
