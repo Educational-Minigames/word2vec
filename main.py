@@ -108,6 +108,54 @@ body, h1, h2, h3, p, label, span, div {
     rx: 10px !important;
 }
 
+.legendtext {
+    transform: translateX(-8px);
+}
+
+.layers {
+    transform: scale(2) translateX(-14px);
+}
+
+.scrollbox {
+    clip-path: none !important;
+}
+
+.scrollbox > :nth-child(3) {
+    transform: translateY(6px) !important;
+}
+
+.scrollbox > :nth-child(4) {
+    transform: translateY(12px) !important;
+}
+
+.scrollbox > :nth-child(5) {
+    transform: translateY(18px) !important;
+}
+
+.scrollbox > :nth-child(6) {
+    transform: translateY(24px) !important;
+}
+
+.scrollbox > :nth-child(7) {
+    transform: translateY(30px) !important;
+}
+
+.scrollbox > :nth-child(8) {
+    transform: translateY(36px) !important;
+}
+
+.scrollbox > :nth-child(9) {
+    transform: translateY(42px) !important;
+}
+
+.scrollbox > :nth-child(10) {
+    transform: translateY(48px) !important;
+}
+
+.scrollbox > :nth-child(11) {
+    transform: translateY(54px) !important;
+}
+
 /* for hiding textfield helper text */
 .st-emotion-cache-1li7dat {
     display: none !important;
