@@ -118,6 +118,7 @@ body, h1, h2, h3, p, label, span, div {
 
 .scrollbox {
     clip-path: none !important;
+    transform: scale(1.4) translateX(-24px);
 }
 
 .scrollbox > :nth-child(3) {
