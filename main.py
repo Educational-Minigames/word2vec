@@ -106,6 +106,10 @@ body, h1, h2, h3, p, label, span, div {
     padding: 0 !important;
 }
 
+.modebar{
+    transform: scale(3) translateX(-30px);
+}
+
 .legendtoggle {
     stroke: black !important;
     stroke-width: 1px !important;
