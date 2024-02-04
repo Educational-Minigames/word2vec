@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 import json
 
-PLOT_HEIGHT = 600
+PLOT_HEIGHT = 800
 
 # Configure Streamlit to be in wide mode and remove the title
 st.set_page_config(layout="wide")
@@ -61,7 +61,7 @@ def create_scatterplot_with_arrows(data, relation_data=[]):
         )
 
     fig.update_layout(
-        margin={"r": 0, "t": 25, "l": 0, "b": 0},
+        margin={"r": 0, "t": 0, "l": 0, "b": 0},
         height=PLOT_HEIGHT,
         xaxis=dict(showgrid=False, zeroline=False),
         yaxis=dict(showgrid=False, zeroline=False),
@@ -100,6 +100,10 @@ body, h1, h2, h3, p, label, span, div {
 
 * {
     font-family: Anjoman !important;
+}
+
+.block-container {
+    padding: 0 !important;
 }
 
 .legendtoggle {
