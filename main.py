@@ -102,12 +102,20 @@ body, h1, h2, h3, p, label, span, div {
     font-family: Anjoman !important;
 }
 
+text {
+    font-size: 28px !important;
+}
+
+.st-emotion-cache-14rvwma {
+    width: 100px !important;
+}
+
 .block-container {
     padding: 0 !important;
 }
 
 .modebar{
-    transform: scale(3) translateX(-30px);
+    transform: scale(3) translateX(-30px) translateY(-5px);
 }
 
 .legendtoggle {
@@ -118,6 +126,7 @@ body, h1, h2, h3, p, label, span, div {
 
 .legendtext {
     transform: translateX(-8px);
+    font-size: 18px !important;
 }
 
 .layers {
@@ -126,7 +135,7 @@ body, h1, h2, h3, p, label, span, div {
 
 .scrollbox {
     clip-path: none !important;
-    transform: scale(1.4) translateX(-28px) translateY(36px);
+    transform: scale(1.4) translateX(-36px) translateY(36px);
 }
 
 .scrollbox > :nth-child(3) {
