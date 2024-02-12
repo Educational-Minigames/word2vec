@@ -77,6 +77,10 @@ raw_data = pd.read_csv("data.csv")
 with open("groups.json", "r", encoding="utf-8") as json_file:
     relationship_data = json.load(json_file)
 
+with open("selectable_words.json", "r", encoding="utf-8") as json_file:
+    selectable_words = json.load(json_file)
+
+
 # Split the DataFrame into 'data' and 'hidden_data' based on NaN values in the 'cluster' column
 hidden_data = raw_data[raw_data['cluster'].isna()]
 plot_data = raw_data.dropna(subset=['cluster'])
@@ -218,8 +222,10 @@ placeholder = None
 if ADD_WORDS:
     st.sidebar.header("کلمه جدید")
     with st.form("my-form"):
-        word_to_add = st.sidebar.text_input("کلمه جدید وارد کنید:")
+        word_to_add = st.sidebar.selectbox(
+            "یک کلمه را انتخاب کنید.", ['هیچ کدام'] + selectable_words)
         add_button = st.sidebar.button("اضافه کردن کلمه")
+
 
     reset_button = st.sidebar.button("حذف کلمات جدید")
 
