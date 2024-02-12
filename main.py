@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 import json
 
-PLOT_HEIGHT = 800
+PLOT_HEIGHT = 1200
 
 # Configure Streamlit to be in wide mode and remove the title
 st.set_page_config(layout="wide")
