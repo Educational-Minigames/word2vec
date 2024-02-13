@@ -106,12 +106,24 @@ body, h1, h2, h3, p, label, span, div {
     font-family: Anjoman !important;
 }
 
+p {
+    font-size: 24px !important; 
+}
+
+.st-emotion-cache-sy3zga {
+    font-size: 24px !important; 
+}
+
+.st-c8 {
+    font-size: 24px !important; 
+}
+
 text {
     font-size: 30px !important;
 }
 
 .st-emotion-cache-14rvwma {
-    width: 150px !important;
+    width: 200px !important;
 }
 
 .block-container {
@@ -223,9 +235,8 @@ if ADD_WORDS:
     st.sidebar.header("کلمه جدید")
     with st.form("my-form"):
         word_to_add = st.sidebar.selectbox(
-            "یک کلمه را انتخاب کنید.", ['هیچ کدام'] + selectable_words)
+            "یک کلمه را انتخاب کنید:", selectable_words)
         add_button = st.sidebar.button("اضافه کردن کلمه")
-
 
     reset_button = st.sidebar.button("حذف کلمات جدید")
 
@@ -253,7 +264,7 @@ else:
 if SHOW_RELATIONS:
     st.sidebar.header("انتخاب ارتباط")
     selected_relation = st.sidebar.selectbox(
-        "یک ارتباط انتخاب کنید.", ['هیچ کدام'] + list(relationship_data.keys()))
+        "یک ارتباط انتخاب کنید:", ['هیچ کدام'] + list(relationship_data.keys()))
 
     # Process and display the selected relation with arrows if it exists
     if selected_relation:
