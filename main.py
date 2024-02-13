@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 import json
 
-PLOT_HEIGHT = 1200
+PLOT_HEIGHT = 1800
 
 # Configure Streamlit to be in wide mode and remove the title
 st.set_page_config(layout="wide")
@@ -107,7 +107,7 @@ body, h1, h2, h3, p, label, span, div {
 }
 
 text {
-    font-size: 28px !important;
+    font-size: 30px !important;
 }
 
 .st-emotion-cache-14rvwma {
