@@ -114,6 +114,10 @@ p {
     font-size: 24px !important; 
 }
 
+.st-emotion-cache-5m2qup {
+    gap: 2rem !important;
+}
+
 .st-c8 {
     font-size: 24px !important; 
 }
@@ -151,43 +155,43 @@ text {
 
 .scrollbox {
     clip-path: none !important;
-    transform: scale(1.4) translateX(-36px) translateY(36px);
+    transform: scale(1.4) translateX(-40px) translateY(40px);
 }
 
 .scrollbox > :nth-child(3) {
-    transform: translateY(6px) !important;
+    transform: translateY(10px) !important;
 }
 
 .scrollbox > :nth-child(4) {
-    transform: translateY(12px) !important;
+    transform: translateY(20px) !important;
 }
 
 .scrollbox > :nth-child(5) {
-    transform: translateY(18px) !important;
-}
-
-.scrollbox > :nth-child(6) {
-    transform: translateY(24px) !important;
-}
-
-.scrollbox > :nth-child(7) {
     transform: translateY(30px) !important;
 }
 
+.scrollbox > :nth-child(6) {
+    transform: translateY(40px) !important;
+}
+
+.scrollbox > :nth-child(7) {
+    transform: translateY(50px) !important;
+}
+
 .scrollbox > :nth-child(8) {
-    transform: translateY(36px) !important;
+    transform: translateY(60px) !important;
 }
 
 .scrollbox > :nth-child(9) {
-    transform: translateY(42px) !important;
+    transform: translateY(70px) !important;
 }
 
 .scrollbox > :nth-child(10) {
-    transform: translateY(48px) !important;
+    transform: translateY(80px) !important;
 }
 
 .scrollbox > :nth-child(11) {
-    transform: translateY(54px) !important;
+    transform: translateY(90px) !important;
 }
 
 /* for hiding textfield helper text */
