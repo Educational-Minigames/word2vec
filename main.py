@@ -111,7 +111,7 @@ text {
 }
 
 .st-emotion-cache-14rvwma {
-    width: 100px !important;
+    width: 150px !important;
 }
 
 .block-container {
