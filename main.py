@@ -159,39 +159,39 @@ text {
 }
 
 .scrollbox > :nth-child(3) {
-    transform: translateY(10px) !important;
+    transform: translateY(13px) !important;
 }
 
 .scrollbox > :nth-child(4) {
-    transform: translateY(20px) !important;
+    transform: translateY(26px) !important;
 }
 
 .scrollbox > :nth-child(5) {
-    transform: translateY(30px) !important;
+    transform: translateY(39px) !important;
 }
 
 .scrollbox > :nth-child(6) {
-    transform: translateY(40px) !important;
+    transform: translateY(52px) !important;
 }
 
 .scrollbox > :nth-child(7) {
-    transform: translateY(50px) !important;
+    transform: translateY(65px) !important;
 }
 
 .scrollbox > :nth-child(8) {
-    transform: translateY(60px) !important;
+    transform: translateY(78px) !important;
 }
 
 .scrollbox > :nth-child(9) {
-    transform: translateY(70px) !important;
+    transform: translateY(91px) !important;
 }
 
 .scrollbox > :nth-child(10) {
-    transform: translateY(80px) !important;
+    transform: translateY(104px) !important;
 }
 
 .scrollbox > :nth-child(11) {
-    transform: translateY(90px) !important;
+    transform: translateY(117px) !important;
 }
 
 /* for hiding textfield helper text */
