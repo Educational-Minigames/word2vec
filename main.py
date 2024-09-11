@@ -107,11 +107,11 @@ body, h1, h2, h3, p, label, span, div {
 }
 
 p {
-    font-size: 24px !important; 
+    font-size: 30px !important; 
 }
 
 .st-emotion-cache-sy3zga {
-    font-size: 24px !important; 
+    font-size: 30px !important; 
 }
 
 .st-emotion-cache-5m2qup {
@@ -119,11 +119,11 @@ p {
 }
 
 .st-c8 {
-    font-size: 24px !important; 
+    font-size: 30px !important; 
 }
 
 text {
-    font-size: 30px !important;
+    font-size: 36px !important;
 }
 
 .st-emotion-cache-14rvwma {
@@ -155,7 +155,7 @@ text {
 
 .scrollbox {
     clip-path: none !important;
-    transform: scale(1.4) translateX(-40px) translateY(40px);
+    transform: scale(2) translateX(-70px) translateY(40px);
 }
 
 .scrollbox > :nth-child(3) {
